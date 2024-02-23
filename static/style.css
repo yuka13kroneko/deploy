@@ -1,0 +1,21 @@
+/* styles.css (または適切なスタイルシートファイル) */
+a {
+    text-decoration: none; /* アンダーバーをなくすスタイル */
+    color: inherit; /* リンクの色をデフォルトに戻す */
+}
+
+.like-btn-container {
+    display: flex;
+    flex-wrap: wrap; /* フレキシブな配置を設定 */
+}
+
+.like-btn {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.add-color {
+    color: palevioletred;
+}
+
+

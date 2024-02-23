@@ -1,0 +1,30 @@
+<!-- genre_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-3">
+    <h4>{{ genre }}の投稿一覧</h4>
+    {% for post in posts %}
+        <div class="alert alert-success" role="alert">
+            <p>タイトル：<a href="{% url 'app:detail' post.pk %}" class="post-title-link">{{ post.title }}</a></p>
+            <p>ジャンル：{{ post.genre }}</p>
+            {% if post.user != request.user %}
+                <p>投稿者：<a href="{% url 'app:user-account' post.user.username %}">{{ post.user.username }}</a></p>
+            {% else %}
+                <p>投稿者：{{ post.user.username }}</p>
+            {% endif %}
+            <p>投稿時間：{{ post.created_at }}</p>
+            <div class="like-btn-container">
+                {% if post.pk %}
+                    {% if request.user in post.like.all %}
+                        <a href="{% url 'app:like-genre' pk=post.pk genre=post.genre %}" class="like-btn add-color" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-heart"></i></a>{{ post.like.count }}
+                    {% else %}
+                        <a href="{% url 'app:like-genre' pk=post.pk genre=post.genre %}" class="like-btn" tabindex="-1" role="button" aria-disabled="true"><i class="far fa-heart"></i></a>{{ post.like.count }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

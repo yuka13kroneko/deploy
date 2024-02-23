@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+   <div class="alert alert-success" role="alert">
+       <p>タイトル：{{object.title}}</p>
+       <p>コメント：{{object.content}}</p>
+       <p>投稿者：{{object.user}}</p>
+
+       {% if object.user == request.user %}
+       <a href="{% url 'app:update' pk=object.pk %}" class="btn btn-primary ms-3" tabindex="-1" role="button" aria-disabled="true">編集</a>
+       <a href="{% url 'app:delete' pk=object.pk %}" class="btn btn-danger ms-3" tabindex="-1" role="button" aria-disabled="true">削除</a>
+       {% endif %}
+       {% if request.user in object.like.all %}
+       <a href="{% url 'app:like-detail' object.pk %}" class="like-btn add-color" tabindex="-1" role="button" aria-disabled="true"><i class="fas fa-heart"></i></a>{{object.like.count}}
+       {% else %}
+       <a href="{% url 'app:like-detail' object.pk %}" class="like-btn" tabindex="-1" role="button" aria-disabled="true"><i class="far fa-heart"></i></a>{{object.like.count}}
+       {% endif %}
+     
+    </div>
+    <!-- ホーム画面に戻るボタン -->
+    <a href="{% url 'app:home' %}" class="btn btn-primary mt-3" role="button">ホームに戻る</a>
+</div>
+{% endblock content %}

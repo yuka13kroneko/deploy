@@ -1,0 +1,38 @@
+<!-- search_results.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-3">
+   <h4>検索結果</h4>
+
+   {% if query %}
+      <p>検索キーワード: {{ query }}</p>
+   {% endif %}
+
+   {% if object_list %}
+      <!-- 検索結果がある場合 -->
+      {% for item in object_list %}
+         <div class="alert alert-success" role="alert">
+            <!-- 投稿の詳細表示 -->
+            <p>タイトル：<a href="{% url 'app:detail' item.pk %}" class="post-title-link">{{ item.title }}</a></p>
+            <p>ジャンル：{{ item.genre }}</p>
+            <p>投稿者：<a href="{% url 'app:user-account' item.user.username %}">{{ item.user.username }}</a></p>
+            <p>投稿時間：{{ item.created_at }}</p>
+            <!-- 他の投稿情報の表示 -->
+
+            <!-- いいねボタンなどの追加 -->
+
+         </div>
+      {% endfor %}
+   {% else %}
+      <!-- 検索結果がない場合のメッセージ -->
+      <p>該当する投稿がありません。</p>
+   {% endif %}
+
+   <!-- ホーム画面へ戻るボタン -->
+   <a href="{% url 'app:home' %}" class="btn btn-primary mt-3" role="button">ホームに戻る</a>
+</div>
+    
+{% endblock content %}

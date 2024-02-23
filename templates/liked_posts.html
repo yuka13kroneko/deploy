@@ -1,0 +1,32 @@
+<!-- liked_posts.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-3">
+  <h4>良いねした投稿一覧</h4>
+
+  {% for post in liked_posts %}
+    <div class="alert alert-success" role="alert">
+      <p>タイトル：<a href="{% url 'app:detail' post.pk %}" class="post-title-link">{{ post.title }}</a></p>
+      <p>ジャンル：{{ post.genre }}</p>
+      <p>投稿者：<a href="{% url 'app:user-account' post.user.username %}">{{ post.user.username }}</a></p>
+      <p>投稿時間：{{ post.created_at }}</p>
+
+      <div class="like-btn-container">
+        {% if post.pk %}
+          {% if request.user in post.like.all %}
+          <span href="{% url 'app:like-detail' post.pk %}" class="like-btn add-color" tabindex="-1" aria-disabled="true"><i class="fas fa-heart"></i></a>{{ post.like.count }}
+          {% else %}
+          <span href="{% url 'app:like-detail' post.pk %}" class="like-btn" tabindex="-1" aria-disabled="true"><i class="far fa-heart"></i></a>{{ post.like.count }}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- アカウント画面に戻るボタン -->
+  <a href="{% url 'app:account' %}" class="btn btn-primary mt-3" role="button">アカウントに戻る</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+<!-- edit_profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+  <h3>プロフィールの編集</h3>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="bio" class="form-label">自己紹介</label>
+      <textarea name="bio" id="bio" rows="4" class="form-control">{{ user_profile.bio }}</textarea>
+    </div>
+
+    <!-- 他のプロフィール情報があれば同様に追加 -->
+
+    <button type="submit" class="btn btn-primary">保存</button>
+  </form>
+</div>
+{% endblock content %}
