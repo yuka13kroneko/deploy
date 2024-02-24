@@ -1,6 +1,7 @@
 <!-- account.html -->
 
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <div class="container mt-3">
@@ -45,6 +46,6 @@
         </div>
       </div>
     {% endfor %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
   </div>
   {% endblock content %}

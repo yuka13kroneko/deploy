@@ -1,5 +1,6 @@
 <!-- create.html -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-3">
@@ -24,4 +25,5 @@
   <!-- ホーム画面に戻るボタン -->
   <a href="{% url 'app:home' %}" class="btn btn-primary mt-3" role="button">ホームに戻る</a>
 </div>
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 {% endblock content %}
