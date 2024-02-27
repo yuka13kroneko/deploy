@@ -16,9 +16,9 @@
       {% for item in object_list %}
          <div class="alert alert-success" role="alert">
             <!-- 投稿の詳細表示 -->
-            <p>タイトル：<a href="{% url 'app:detail' item.pk %}" class="post-title-link">{{ item.title }}</a></p>
+            <p>タイトル：<a href="{% url 'app:detail' item.pk %}" class="post-title-link" style="text-decoration: none;">{{ item.title }}</a></p>
             <p>ジャンル：{{ item.genre }}</p>
-            <p>投稿者：<a href="{% url 'app:user-account' item.user.username %}">{{ item.user.username }}</a></p>
+            <p>投稿者：<a href="{% url 'app:user-account' item.user.username %}" class="post-title-link" style="text-decoration: none;">{{ item.user.username }}</a></p>
             <p>投稿時間：{{ item.created_at }}</p>
             <!-- 他の投稿情報の表示 -->
 

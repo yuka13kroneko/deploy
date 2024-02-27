@@ -1,7 +1,6 @@
 /* styles.css (または適切なスタイルシートファイル) */
-a {
-    text-decoration: none; /* アンダーバーをなくすスタイル */
-    color: inherit; /* リンクの色をデフォルトに戻す */
+.post-title-link  {
+    text-decoration: none !important;
 }
 
 .like-btn-container {

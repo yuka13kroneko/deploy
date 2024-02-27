@@ -7,10 +7,10 @@
     <h4>{{ genre }}の投稿一覧</h4>
     {% for post in posts %}
         <div class="alert alert-success" role="alert">
-            <p>タイトル：<a href="{% url 'app:detail' post.pk %}" class="post-title-link">{{ post.title }}</a></p>
+            <p>タイトル：<a href="{% url 'app:detail' post.pk %}" class="post-title-link" style="text-decoration: none;">{{ post.title }}</a></p>
             <p>ジャンル：{{ post.genre }}</p>
             {% if post.user != request.user %}
-                <p>投稿者：<a href="{% url 'app:user-account' post.user.username %}">{{ post.user.username }}</a></p>
+                <p>投稿者：<a href="{% url 'app:user-account' post.user.username %}" class="post-title-link" style="text-decoration: none;">{{ post.user.username }}</a></p>
             {% else %}
                 <p>投稿者：{{ post.user.username }}</p>
             {% endif %}
