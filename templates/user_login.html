@@ -16,7 +16,7 @@
                     </form>
 
                     {% if messages %}
-                        <div class="mt-3">
+                        <div class="mt-3" style="color: red;">
                             <ul class="messages">
                                 {% for message in messages %}
                                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
