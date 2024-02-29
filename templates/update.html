@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="編集">
-</form>
+<div class="container mt-3">
+  <h3>投稿の編集</h3>
+  <form method="post" class="form">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="title" class="form-label">タイトル</label>
+      {{ form.title }}
+    </div>
+
+    <div class="mb-3">
+      <label for="content" class="form-label">内容</label>
+      {{ form.content }}
+    </div>
+
+    <div class="mb-3">
+      <label for="genre" class="form-label">ジャンル</label>
+      {{ form.genre }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">保存</button>
+  </form>
+</div>
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 {% endblock content %}
+

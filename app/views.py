@@ -1,6 +1,6 @@
 from typing import Any
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.base import TemplateView, View
 from .forms import RegistForm, UserLoginForm
@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from .models import Users
 from django.urls import reverse
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -38,11 +40,18 @@ class UserLoginView(FormView):
         email = request.POST['email']
         password = request.POST['password']
         user = authenticate(email=email, password=password)
+        
         if user is not None and user.is_active:
             login(request, user)
-            return redirect('app:account', username=user.username)  
-        return redirect('app:home')
+            return redirect('app:account', username=user.username)
+        else:
+            # 認証失敗時のエラーメッセージをセット
+            messages.error(request, 'メールアドレスまたはパスワードが間違っています。<br>アカウントをお持ちでない方はユーザー登録を行ってからログインしてください。')
+
+        return super().form_invalid(self.get_form())
+
         
+                
 class UserLogoutView(FormView):
     
     def get(self, request, *args, **kwargs):
@@ -79,6 +88,7 @@ class DetailPost(LoginRequiredMixin, DetailView):
     template_name = 'detail.html'
 
 
+# views.py
 class CreatePost(LoginRequiredMixin, CreateView):
     """投稿フォーム"""
     model = Post
@@ -90,6 +100,14 @@ class CreatePost(LoginRequiredMixin, CreateView):
         """投稿ユーザーをリクエストユーザーと紐付け"""
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].label = 'タイトル'
+        form.fields['content'].label = 'コメント'
+        form.fields['genre'].label = 'ジャンル'
+        return form
+
 
 
 class UpdatePost(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -108,6 +126,13 @@ class UpdatePost(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         pk = self.kwargs["pk"]
         post = Post.objects.get(pk=pk)
         return (post.user == self.request.user)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].label = 'タイトル'
+        form.fields['content'].label = 'コメント'
+        form.fields['genre'].label = 'ジャンル'
+        return form
 
 
 class DeletePost(LoginRequiredMixin, UserPassesTestMixin, DeleteView):

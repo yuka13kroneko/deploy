@@ -2,6 +2,11 @@ from django import forms
 from .models import Users
 from django.contrib.auth.password_validation import validate_password
 from django.forms.widgets import SelectDateWidget
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.contrib.auth.password_validation import validate_password
 
 
 class RegistForm(forms.ModelForm):
@@ -14,14 +19,33 @@ class RegistForm(forms.ModelForm):
         model = Users
         fields = ['username', 'birthdate', 'email', 'password']
 
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        return password
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+
+        if password:
+            try:
+                validate_password(password, self.instance)  # パスワードのバリデーション
+            except ValidationError as e:
+            # バリデーションエラーがあればエラーメッセージを設定
+                for message in e.messages:
+                    self.add_error('password', message)
+
+        return cleaned_data
+
     def save(self, commit=False):
         user = super().save(commit=False)
-        validate_password(self.cleaned_data['password'], user)
         user.set_password(self.cleaned_data['password'])
         user.save()
-        return user    
+        return user
+    
 
 class UserLoginForm(forms.Form):
     email = forms.EmailField(label='メールアドレス')    
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
-        
+

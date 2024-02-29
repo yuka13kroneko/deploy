@@ -1,6 +1,6 @@
 /* styles.css (または適切なスタイルシートファイル) */
 .post-title-link  {
-    text-decoration: none !important;
+    text-decoration: none;
 }
 
 .like-btn-container {
@@ -17,4 +17,7 @@
     color: palevioletred;
 }
 
-
+.error-message {
+    margin-top: 10px; /* 適切なマージンを指定してください */
+    color: red; /* エラーメッセージの文字色を指定してください */
+}
